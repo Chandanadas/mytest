@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My TESTING - Applications</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQoQ_5sMfUbEmui0WR_ZIXjcOjv_RX9JI&callback=initMap"
+async defer></script>
+<style>
+	#footer {
+     position : absolute;
+     bottom : 0;
+     height:60px;
+     margin-top : 40px;
+     text-align: center ;
+     font-size: 10px ;
+     font-family: 'Lato' ;
+     }
+	  #map {
+        height: 200px;
+		width:100%;
+		border:2px solid black;
+      }
+
+</style>
+</head>
+<body>
+	<div class="container">
+	<div class="row">
+	  <h1>My First Bootstrap Page</h1>
+	    <div class="panel panel-primary">
+		  <div class="panel-heading">Welcome to my page</div>
+		  <div class="panel-body">			
+				<div class="row" id="dv_name">
+				<form>
+					<div class="col-sm-6" style="text-align:right;">	
+						<div class="form-group">
+							enter your name <input type="text" id="usr_name"  />
+						</div>
+						<div class="form-group">
+							enter address <input type="text" class="input-group-lg" id="user_add" />
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<input type="button" value="click" id="btn-name"  class="btn btn-success" />
+					</div>
+				</form>
+				</div>
+				 <div class="row" id="dv_addrd" style="display:none;" >
+					<div class="col-sm-12">
+						 <div id="map" style="width:100%;height:300px;">
+						 
+						 </div>    	
+					</div>
+				</div>
+		  </div>
+		</div> 
+	 </div>
+	</div>
+</body>
+<script>
+
+function getLatitudeLongitude(callback, address) {
+    // If adress is not supplied, use default value 'Ferrol, Galicia, Spain'
+    address = address || 'Ferrol, Galicia, Spain';
+    // Initialize the Geocoder
+    geocoder = new google.maps.Geocoder();
+    if (geocoder) {
+        geocoder.geocode({
+            'address': address
+        }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                callback(results[0]);
+            }
+        });
+    }
+}
+
+function showResult(result) {
+	var uluru = {lat: result.geometry.location.lat(), lng: result.geometry.location.lng()};
+	var map = new google.maps.Map(document.getElementById('map'), {
+	  zoom: 10,
+	  center: uluru
+	});
+	var marker = new google.maps.Marker({
+	  position: uluru,
+	  map: map
+	});
+}
+$(function(){
+	   // jQuery methods go here...
+	   $("#btn-name").click(function(){
+			var input=$("#usr_name");
+			var is_name=input.val();
+			var addr = $("#user_add").val();
+			if(is_name && addr){
+				$("#dv_name").fadeOut();
+				$("#dv_addrd").show();
+				if($("#map")){
+						getLatitudeLongitude(showResult, addr);					
+					
+				}
+				
+			}else{
+				input.removeClass("valid").addClass("invalid");
+				addr.removeClass("valid").addClass("invalid");
+			}
+			
+		}
+	   )
+	   
+	   
+
+	});
+</script>
+</html>
