@@ -39,7 +39,7 @@ async defer></script>
 	<div class="row">
 	  <h1>My First Bootstrap Page</h1>
 	    <div class="panel panel-primary">
-		  <div class="panel-heading">Welcome to my page</div>
+		  <div class="panel-heading">Welcome to <span id="name_place" >my </span>&nbsp;page</div>
 		  <div class="panel-body">			
 				<div class="row" id="dv_name">
 				<form>
@@ -105,6 +105,7 @@ $(function(){
 			var addr = $("#user_add").val();
 			if(is_name && addr){
 				$("#dv_name").fadeOut();
+				$("#name_place").html(is_name);
 				$("#dv_addrd").show();
 				if($("#map")){
 						getLatitudeLongitude(showResult, addr);					
